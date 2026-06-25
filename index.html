@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Blue Birthday Surprise 💙</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Alex+Brush&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL ROOT THEME --- */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-image: url('blue background.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            scroll-behavior: smooth;
+        }
+
+        .playfair-font { font-family: 'Alex Brush', cursive; }
+        .handwritten-script { font-family: 'Alex Brush', cursive; }
+
+        /* Scene Engine Layouts */
+        .scene {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            transform: scale(0.99);
+        }
+        .scene.active-scene {
+            display: flex;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Ambient Sparkle Engine Particles */
+        .sparkle-particle {
+            position: absolute;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(186,230,253,0.8) 50%, rgba(255,255,255,0) 100%);
+            border-radius: 50%;
+            animation: glowPulse var(--speed) ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { transform: translateY(0) scale(0.5); opacity: 0.2; }
+            50% { transform: translateY(var(--y-move)) scale(1.2); opacity: 0.9; }
+        }
+
+        /* --- IMMACULATE SEPARATED KISS MARK BURST ANIMATION --- */
+        .kiss-burst-element {
+            position: fixed;
+            pointer-events: none;
+            background-image: url('red kiss.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 100;
+            animation: kissFloatOutSmooth 6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes kissFloatOutSmooth {
+            0% { 
+                transform: translate(-50%, -50%) scale(0) rotate(0deg); 
+                opacity: 0; 
+            }
+            12% { 
+                opacity: 1; 
+            }
+            85% { 
+                opacity: 1;
+            }
+            100% { 
+                transform: translate(var(--move-x), var(--move-y)) scale(var(--scale-max)) rotate(var(--rot)); 
+                opacity: 0; 
+            }
+        }
+
+        /* Hanging Polaroid Components Layouts */
+        .string-line {
+            width: 1px;
+            background: linear-gradient(to bottom, rgba(226,232,240,0.8), rgba(186,230,253,0.4));
+            transform-origin: top center;
+            animation: stringSwing var(--swing-time) ease-in-out infinite alternate;
+        }
+        @keyframes stringSwing {
+            0% { transform: rotate(-3deg); }
+            100% { transform: rotate(3deg); }
+        }
+
+        /* Polaroid Flipping Structures */
+        .polaroid-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .polaroid-card-flipped .polaroid-card-inner {
+            transform: rotateY(180deg);
+        }
+        .polaroid-card-front, .polaroid-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .polaroid-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Envelope Motion Blueprints */
+        .letter-paper {
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+        }
+
+        /* Premium Styled Baby Blue Button */
+        .babyblue-btn {
+            background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.35), inset 0 1px 2px rgba(255,255,255,0.4);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .babyblue-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 8px 24px rgba(14, 165, 233, 0.45);
+        }
+    </style>
+</head>
+<body class="min-h-screen overflow-x-hidden text-sky-950 relative selection:bg-sky-200">
+
+    <div id="ambientSparkleLayer" class="fixed inset-0 pointer-events-none z-10"></div>
+
+    <div class="fixed top-6 right-6 z-50">
+        <button id="musicAudioToggle" class="bg-white/90 text-sky-600 border border-sky-100 p-4 rounded-full shadow-xl hover:bg-white transition cursor-pointer w-12 h-12 flex items-center justify-center">
+            <i id="musicStatusIcon" class="fas fa-music"></i>
+        </button>
+        <audio id="romanticBackgroundTrack" src="your-background-music.mp3" loop></audio>
+    </div>
+
+    <section id="sceneStep1" class="scene active-scene flex flex-col items-center justify-center min-h-screen text-center px-4">
+        <div class="bg-white/80 backdrop-blur-md border border-sky-100 p-8 md:p-12 rounded-3xl shadow-2xl max-w-lg w-full relative">
+            <h1 class="playfair-font text-4xl md:text-5xl text-sky-1000 font-bold tracking-wide leading-tight mb-3"> <p> Happy Birthday,</p> 
+                My Danish</h1>
+            <p class="text-xs uppercase tracking-[0.25em] text-sky-600/90 font-semibold mb-12">A special visual chapter crafted just for you</p>
+            
+            <div class="relative w-64 h-64 mx-auto mb-10 flex items-center justify-center overflow-visible">
+                <img src="danish.png" alt="My Danish Portrait" class="absolute w-[120%] h-[120%] object-cover rounded-2xl z-0">
+                
+            </div>
+
+            <div class="flex justify-center">
+                <button id="surpriseTriggerButton" onclick="triggerKissSurpriseSequence()" class="babyblue-btn px-10 py-4 text-white text-xs uppercase tracking-widest rounded-full font-bold cursor-pointer">
+                    Click for more surprise
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="sceneStep2" class="scene flex-col items-center justify-start min-h-screen text-center px-2 py-12 relative">
+        <h2 class="playfair-font text-3xl text-sky-900 font-bold mb-2 px-4">Our Memory Tapestry</h2>
+        <p class="text-xs uppercase tracking-widest text-sky-600 font-medium mb-12 px-4">A legacy of timeless moments shared together</p>
+
+        <div id="hangingGridTapestry" class="w-full max-w-6xl h-96 overflow-x-auto overflow-y-hidden whitespace-nowrap px-8 flex items-start gap-6 relative scrollbar-none mb-16">
+            </div>
+
+        <div class="w-full max-w-xl mx-auto bg-white/70 backdrop-blur-md p-6 rounded-3xl border border-sky-100 shadow-xl mb-12">
+            <div class="relative w-full h-[380px] overflow-hidden rounded-2xl bg-stone-100 shadow-inner group">
+                
+                <div id="showcaseCarouselSliderContainer" class="w-full h-full flex transition-transform duration-700 ease-out">
+                    <div class="w-full h-full flex-shrink-0 relative">
+                        <img src="1.jpg" alt="Showcase 1" class="w-full h-full object-cover">
+                    </div>
+                    <div class="w-full h-full flex-shrink-0 relative">
+                        <img src="2.jpg" alt="Showcase 2" class="w-full h-full object-cover">
+                    </div>
+                    <div class="w-full h-full flex-shrink-0 relative">
+                        <img src="3.jpg" alt="Showcase 3" class="w-full h-full object-cover">
+                    </div>
+                    <div class="w-full h-full flex-shrink-0 relative">
+                        <img src="4.jpg" alt="Showcase 4" class="w-full h-full object-cover">
+                    </div>
+                    <div class="w-full h-full flex-shrink-0 relative">
+                        <img src="5.jpg" alt="Showcase 5" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <button onclick="moveCarouselFrameDirection(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-sky-900 w-10 h-10 rounded-full flex items-center justify-center shadow cursor-pointer transition z-20">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button onclick="moveCarouselFrameDirection(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-sky-900 w-10 h-10 rounded-full flex items-center justify-center shadow cursor-pointer transition z-20">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <p class="playfair-font text-lg text-sky-900 italic font-semibold mt-4">"Every memory with you is my favorite."</p>
+        </div>
+    </section>
+
+
+    <div id="iphoneNotificationSystemOverlayAlert" class="fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-sm bg-white/90 backdrop-blur-xl border border-sky-100 rounded-2xl p-4 shadow-2xl z-50 flex items-start gap-4 transform -translate-y-44 opacity-0 transition-all duration-700 pointer-events-none">
+        <div class="bg-sky-100 text-sky-600 p-3 rounded-xl flex-shrink-0">
+            <i class="fas fa-envelope-open-text text-xl"></i>
+        </div>
+        <div class="flex-grow">
+            <div class="flex items-center justify-between mb-1">
+                <span class="text-xs uppercase font-bold tracking-wider text-sky-600">Mail App</span>
+                <span class="text-[10px] text-stone-400">now</span>
+            </div>
+            <h4 class="text-sm font-bold text-sky-950">Hey love 💙</h4>
+            <p class="text-xs text-stone-600 mt-0.5 leading-relaxed">You have a new mail waiting for you.</p>
+            <button onclick="dismissNotificationAndGoToLetter()" class="mt-3 bg-sky-500 hover:bg-sky-600 text-white text-[11px] font-bold uppercase tracking-wider px-4 py-1.5 rounded-lg transition cursor-pointer">
+                Open Mail
+            </button>
+        </div>
+    </div>
+
+
+    <section id="sceneStep3" class="scene flex-col items-center justify-center min-h-screen text-center px-4 relative">
+        <div class="w-full max-w-md bg-white/40 backdrop-blur-sm p-8 rounded-3xl border border-white/40 shadow-xl flex flex-col items-center">
+            <h2 class="playfair-font text-2xl text-sky-900 font-bold mb-1">A Parcel Arrived</h2>
+            <p class="text-xs uppercase tracking-widest text-sky-600/80 font-semibold mb-12">Tap the envelope to extract your letter</p>
+            
+            <div id="envelopeInteractiveBaseGrid" class="relative w-80 h-56 cursor-pointer transition transform hover:scale-102 duration-500 flex items-center justify-center overflow-visible">
+                
+                <div id="envelopeSlidingInternalDocumentPaper" class="letter-paper absolute bottom-6 w-[85%] h-40 rounded shadow-md bg-cover bg-center p-4 text-left overflow-hidden opacity-95" style="background-image: url('image_083a25.jpg');">
+                    <p class="handwritten-script text-xl text-sky-950">Bacalaa heheheh...</p>
+                    <div class="w-12 h-[1px] bg-sky-800/20 my-1"></div>
+                </div>
+
+                
+                
+                
+            </div>
+        </div>
+    </section>
+
+
+    <section id="sceneStep4" class="scene flex-col items-center justify-start min-h-screen text-center px-4 py-12 relative">
+        <div class="w-full max-w-2xl bg-stone-50 border-[12px] border-sky-100 rounded-2xl shadow-2xl px-6 md:px-12 py-16 text-left relative overflow-hidden" style="background-image: url('image_083a25.jpg'); background-size: cover; background-position: center;">
+            
+            <h3 class="handwritten-script text-5xl text-sky-900 border-b border-sky-200/40 pb-4 mb-8 font-semibold">Kepada Danish Saya,</h3>
+            
+            <div class="space-y-6 text-sm font-sans font-light tracking-wide text-stone-800 leading-relaxed max-h-[460px] overflow-y-auto pr-2">
+                <p>
+                    Happy Birthday Danish, semoga panjang umur dan sentiasa dimurahkan rezekin dannnnnnn semoga mencapai segala impian kamu.
+                </p>
+                <p>
+                    hmm apa lagi yaa, mauu bagi panjang panjang tapi skrg tngh rushing sbb salah bagi email untuk escape, padahal sy dah fikir dah nak tulis apa
+
+                </p>
+                <p>
+                    Ouhh yaa mestilah sy kena cakap terima kasih sbb sentiasa tolong saya, sentiasa hantar saya kesana kesini, belanja saya makan, bawa saya jalan, lepastu sabar walaupun kadang sy annoying hehehehe, and tenkiuu juga sbb buat saya senyum and selalu pegang tangan saya andddddd selalu dengar apa yang sy nak cakap andd mestilaaa tenkiuu juga sbb still ada lagi dengan saya.
+                </p>
+                <p class="font-medium italic text-sky-900">
+                    last ni sy nak minta maaf kalau saya menyusahkan kamu walaupun sebenarnya nda kan hehehehe. May your birthday be as beautiful, radiant, and deeply loved as you make me feel every single day.
+                </p>
+            </div>
+
+            <div class="pt-8 mt-6 border-t border-sky-200/20 text-right flex flex-col items-end justify-end">
+                <p class="handwritten-script text-4xl text-sky-800">Your Kesayangannnn,</p>
+                <p class="playfair-font text-xs uppercase tracking-widest font-bold text-sky-950 mt-1">Papad </p>
+            </div>
+
+            <div class="mt-12 flex justify-center">
+                <button onclick="navigateSceneLayout(4, 5)" class="babyblue-btn animate-bounce px-10 py-4 text-white text-xs uppercase tracking-widest rounded-full font-bold shadow-lg cursor-pointer">
+                    🎁 Open Your Present
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="sceneStep5" class="scene flex-col items-center justify-start min-h-screen text-center px-4 py-16 relative">
+        <div class="w-full max-w-3xl space-y-16 flex flex-col items-center">
+            
+            <div class="bg-white/80 backdrop-blur-md p-6 rounded-3xl border border-sky-100 max-w-md w-full shadow-2xl transition transform hover:scale-101 duration-500">
+                <div class="relative overflow-hidden rounded-2xl border-4 border-white shadow-md aspect-square bg-sky-50">
+                    <img src="11.jpg" alt="Birthday Girl Portrait Frame Presentation" class="w-full h-full object-cover">
+                </div>
+                <h3 class="playfair-font text-xl text-sky-900 font-bold mt-4">Yeayyy Hadiah nya dapat Papad yg Comel dan Cantikkk</h3>
+            </div>
+
+            <div class="bg-white/80 backdrop-blur-md p-6 rounded-3xl border border-sky-100 w-full shadow-2xl space-y-4 text-center">
+                <h4 class="playfair-font text-xl md:text-2xl text-sky-950 font-bold">A little collection of moments I never want to forget 💙</h4>
+                
+                <div class="relative w-full aspect-video bg-stone-950 rounded-2xl overflow-hidden border-4 border-white shadow-xl">
+                    <iframe id="youtubeSurpriseMediaTrackReel" class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" title="Surprise Video Presentation Reel" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+                <div class="pt-4">
+                    <p class="handwritten-script text-4xl text-sky-800">The End... ehh no no never end!!!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        let currentCarouselActiveIndex = 0;
+        const totalCarouselSlidesAmountCount = 5;
+        let isSurpriseTriggered = false;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeAmbientSparkleEngineCanvas(30);
+            compileHangingTapestryGridDeck(50);
+        });
+
+        // AUDIO TOGGLE STREAM CONTROLLERS
+        const romanticBackgroundTrack = document.getElementById('romanticBackgroundTrack');
+        const musicAudioToggle = document.getElementById('musicAudioToggle');
+        const musicStatusIcon = document.getElementById('musicStatusIcon');
+
+        musicAudioToggle.addEventListener('click', () => {
+            if (romanticBackgroundTrack.paused) {
+                romanticBackgroundTrack.play().catch(e => console.log("Stream context activated."));
+                musicStatusIcon.className = "fas fa-pause";
+            } else {
+                romanticBackgroundTrack.pause();
+                musicStatusIcon.className = "fas fa-music";
+            }
+        });
+
+        // GENERAL LAYOUT SCENE STEP CONTROL MANAGER ROUTER
+        function navigateSceneLayout(currentStepIdx, nextStepIdx) {
+            const currentActiveSceneTargetNode = document.getElementById(`sceneStep${currentStepIdx}`);
+            const nextActiveSceneTargetNode = document.getElementById(`sceneStep${nextStepIdx}`);
+            
+            if (currentActiveSceneTargetNode) currentActiveSceneTargetNode.classList.remove('active-scene');
+            
+            setTimeout(() => {
+                if (currentActiveSceneTargetNode) currentActiveSceneTargetNode.style.display = 'none';
+                if (nextActiveSceneTargetNode) {
+                    nextActiveSceneTargetNode.style.display = 'flex';
+                    setTimeout(() => {
+                        nextActiveSceneTargetNode.classList.add('active-scene');
+                        if (nextStepIdx === 2) {
+                            setTimeout(() => {
+                                triggerIphoneAlertOverlayPopupNotification(true);
+                            }, 10000); // Popup box alert appears 10s into gallery exploration
+                        }
+                    }, 50);
+                }
+            }, 1000);
+        }
+
+        // --- SCENE 1 CORE ACTION: HIGH SEPARATION RADIAL BURST & AUTO TRANSITION ---
+        function triggerKissSurpriseSequence() {
+            if (isSurpriseTriggered) return;
+            isSurpriseTriggered = true;
+
+            // Turn on audio track if paused on user click interaction context
+            if (romanticBackgroundTrack.paused) musicAudioToggle.click();
+
+            // Fire beautifully distributed, perfectly separated kiss layout matrices 
+            executeNeatRadialSeparatedKissExplosion(36);
+
+            // AUTO-PAGE ADVANCE ENGINE: Direct transition right as the kisses fade out completely (6000ms duration)
+            setTimeout(() => {
+                navigateSceneLayout(1, 2);
+            }, 6000);
+        }
+
+        // --- MATHEMATICALLY PERFECT CONCENTRIC RING SEPARATION RATIO DISTRIBUTOR ---
+        function executeNeatRadialSeparatedKissExplosion(densityCount) {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            for (let i = 0; i < densityCount; i++) {
+                const kissNode = document.createElement('div');
+                kissNode.className = 'kiss-burst-element';
+                
+                kissNode.style.left = `${centerX}px`;
+                kissNode.style.top = `${centerY}px`;
+                
+                // Uniformly space angles to prevent clumping
+                const fractionAngle = (i / densityCount) * 2 * Math.PI;
+                
+                // Multi-tiered distance radii to spread kisses neatly across distinct layers
+                let distanceTierRingRatio = 0.45; // Closer Layer
+                if (i % 3 === 1) distanceTierRingRatio = 0.70; // Mid-range Layer
+                if (i % 3 === 2) distanceTierRingRatio = 0.95; // Outer Layer
+                
+                const targetRadiusWidthBoundsX = distanceTierRingRatio * window.innerWidth * 0.48;
+                const targetRadiusHeightBoundsY = distanceTierRingRatio * window.innerHeight * 0.48;
+                
+                const calculatedScatterVectorPathX = Math.cos(fractionAngle) * targetRadiusWidthBoundsX;
+                const calculatedScatterVectorPathY = Math.sin(fractionAngle) * targetRadiusHeightBoundsY;
+                
+                // Smooth varying sizing footprints variables 
+                const mappedRandomScaleSizeFactor = Math.random() * 0.25 + 1.1; 
+                const evaluatedRandomRotationAngle = (Math.random() - 0.5) * 60;
+                
+                kissNode.style.setProperty('--move-x', `${calculatedScatterVectorPathX}px`);
+                kissNode.style.setProperty('--move-y', `${calculatedScatterVectorPathY}px`);
+                kissNode.style.setProperty('--scale-max', `${mappedRandomScaleSizeFactor}`);
+                kissNode.style.setProperty('--rot', `${evaluatedRandomRotationAngle}deg`);
+                
+                // Standard dimensions for kisses
+                const elementLayoutPixelDimensionBase = Math.random() * 15 + 85; 
+                kissNode.style.width = `${elementLayoutPixelDimensionBase}px`;
+                kissNode.style.height = `${elementLayoutPixelDimensionBase}px`;
+                
+                document.body.appendChild(kissNode);
+                
+                // Self-destruct hook matching animation lifetime
+                setTimeout(() => { kissNode.remove(); }, 6000);
+            }
+        }
+
+        // --- SCENE 2 OPERATIONS: AUTOMATED POLAROID DECK GRIDS ---
+        function compileHangingTapestryGridDeck(cardCount) {
+            const hangingGridTapestry = document.getElementById('hangingGridTapestry');
+            const placeholderSampleMemoryTextsArray = [
+                "Our first date", "my first bunga befdayy",
+                "teman pegi event kawan", "support brewjang",
+                "upgrade cermin besar", "muka busuk",
+            "satu lagi muka busuk", "our first photobooth"
+            ];
+
+            for (let i = 1; i <= cardCount; i++) {
+                const layoutColumnWrapperNode = document.createElement('div');
+                layoutColumnWrapperNode.className = 'inline-flex flex-col items-center flex-shrink-0 relative pt-12';
+                
+                const randomSwingSpeedDuration = Math.random() * 2 + 2.5;
+                const randomStringLineHeightPixelScale = Math.random() * 50 + 40;
+                
+                const swingLineTrackNode = document.createElement('div');
+                swingLineTrackNode.className = 'string-line';
+                swingLineTrackNode.style.height = `${randomStringLineHeightPixelScale}px`;
+                swingLineTrackNode.style.setProperty('--swing-time', `${randomSwingSpeedDuration}s`);
+                
+                const polaroidFlipCardFrameNode = document.createElement('div');
+                polaroidFlipCardFrameNode.className = 'polaroid-card w-36 h-44 bg-transparent cursor-pointer perspective-1000';
+                
+                const randomTiltAngleFactorDeg = (Math.random() - 0.5) * 15;
+                polaroidFlipCardFrameNode.style.transform = `rotate(${randomTiltAngleFactorDeg}deg)`;
+                
+                const innerFlippingStructuralCore = document.createElement('div');
+                innerFlippingStructuralCore.className = 'polaroid-card-inner w-full h-full shadow-md border border-stone-200/40 rounded bg-white p-2';
+                
+                const frontCardPanel = document.createElement('div');
+                frontCardPanel.className = 'polaroid-card-front w-full h-full flex flex-col justify-between bg-white';
+                const frontImg = document.createElement('img');
+                const myPhotos = ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg"];
+                frontImg.src = myPhotos[i % myPhotos.length];
+                frontImg.className = 'w-full h-28 object-cover rounded shadow-inner';
+                const frontLabel = document.createElement('p');
+                frontLabel.className = 'handwritten-script text-center text-sky-900 text-lg mt-1';
+                frontLabel.innerText = `Memory #${i}`;
+                frontCardPanel.appendChild(frontImg);
+                frontCardPanel.appendChild(frontLabel);
+
+                const backCardPanel = document.createElement('div');
+                backCardPanel.className = 'polaroid-card-back w-full h-full bg-sky-50 rounded p-3 flex flex-col items-center justify-center text-center border border-sky-100';
+                const backText = document.createElement('p');
+                backText.className = 'text-[10px] text-sky-950 font-sans tracking-wide leading-relaxed italic';
+                backText.innerText = placeholderSampleMemoryTextsArray[i % placeholderSampleMemoryTextsArray.length];
+                backCardPanel.appendChild(backText);
+
+                innerFlippingStructuralCore.appendChild(frontCardPanel);
+                innerFlippingStructuralCore.appendChild(backCardPanel);
+                polaroidFlipCardFrameNode.appendChild(innerFlippingStructuralCore);
+                
+                layoutColumnWrapperNode.appendChild(swingLineTrackNode);
+                layoutColumnWrapperNode.appendChild(polaroidFlipCardFrameNode);
+                hangingGridTapestry.appendChild(layoutColumnWrapperNode);
+
+                const randomIntervalTriggerTimelineDelay = Math.random() * 3000 + 3500;
+                setInterval(() => {
+                    polaroidFlipCardFrameNode.classList.toggle('polaroid-card-flipped');
+                }, randomIntervalTriggerTimelineDelay);
+            }
+        }
+
+        function moveCarouselFrameDirection(offsetStepDirectionVector) {
+            const showcaseCarouselSliderContainer = document.getElementById('showcaseCarouselSliderContainer');
+            currentCarouselActiveIndex = (currentCarouselActiveIndex + offsetStepDirectionVector + totalCarouselSlidesAmountCount) % totalCarouselSlidesAmountCount;
+            const computedPercentageTransformShiftValue = -currentCarouselActiveIndex * 100;
+            showcaseCarouselSliderContainer.style.transform = `translateX(${computedPercentageTransformShiftValue}%)`;
+        }
+
+        // --- SCENE 3: IPHONE ALERT POPUPS SYSTEM OVERLAYS ---
+        function triggerIphoneAlertOverlayPopupNotification(showFlagStatus) {
+            const iphoneNotificationSystemOverlayAlert = document.getElementById('iphoneNotificationSystemOverlayAlert');
+            if (showFlagStatus) {
+                iphoneNotificationSystemOverlayAlert.classList.remove('-translate-y-44', 'opacity-0', 'pointer-events-none');
+                iphoneNotificationSystemOverlayAlert.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+            } else {
+                iphoneNotificationSystemOverlayAlert.classList.add('-translate-y-44', 'opacity-0', 'pointer-events-none');
+                iphoneNotificationSystemOverlayAlert.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+            }
+        }
+
+        function dismissNotificationAndGoToLetter() {
+            triggerIphoneAlertOverlayPopupNotification(false);
+            navigateSceneLayout(2, 3);
+        }
+
+        // --- SCENE 4: FLOATING PARCEL ROUTER SCRIPT LINK ---
+        const envelopeInteractiveBaseGrid = document.getElementById('envelopeInteractiveBaseGrid');
+        envelopeInteractiveBaseGrid.addEventListener('click', () => {
+            navigateSceneLayout(3, 4);
+        });
+
+        // --- AUXILIARY AMBIENT FLOATING GLOW PARTICLE CORE SCRIPT ---
+        function initializeAmbientSparkleEngineCanvas(spawnCountLimit) {
+            const ambientSparkleLayer = document.getElementById('ambientSparkleLayer');
+            for (let i = 0; i < spawnCountLimit; i++) {
+                const particleNode = document.createElement('div');
+                particleNode.className = 'sparkle-particle';
+                
+                const computedDimensionPixelsSize = Math.random() * 6 + 4;
+                particleNode.style.width = `${computedDimensionPixelsSize}px`;
+                particleNode.style.height = `${computedDimensionPixelsSize}px`;
+                
+                particleNode.style.left = Math.random() * 100 + 'vw';
+                particleNode.style.top = Math.random() * 100 + 'vh';
+                
+                const calculatedRandomSpeedSecondsDuration = Math.random() * 4 + 4;
+                const offsetTravelDistancePixelsY = (Math.random() * -120 - 40) + 'px';
+                
+                particleNode.style.setProperty('--speed', `${calculatedRandomSpeedSecondsDuration}s`);
+                particleNode.style.setProperty('--y-move', offsetTravelDistancePixelsY);
+                
+                ambientSparkleLayer.appendChild(particleNode);
+            }
+        }
+    </script>
+</body>
+</html>
